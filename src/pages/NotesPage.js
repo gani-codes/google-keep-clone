@@ -1,17 +1,14 @@
-import { Box, styled } from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 import CreateNoteForm from '../components/createNoteForm/CreateNoteForm';
+import Notes from '../components/Notes/Notes';
 
 const NotesPage = () => {
-    const DrawerHeader = styled('div')(({ theme }) => ({
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-    }));
     return (
         <>
-            <Box sx={{ display: 'flex', width: '100%' }}>
-                <DrawerHeader />
+            <Box sx={{ display: 'flex', width: '100%', flexDirection: 'column' }}>
                 <CreateNoteForm />
+                <Notes />
             </Box>
         </>
     )

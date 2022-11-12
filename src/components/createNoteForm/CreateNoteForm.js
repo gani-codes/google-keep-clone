@@ -50,15 +50,10 @@ const CreateNoteForm = () => {
     const handleClickAway = () => {
         setShowTextField(false);
         formContainerRef.current.style.minheight = '30px'
-        // setAddNote({ ...note, id: uuid() });
-
-        // if (addNote.heading || addNote.text) {
-        //     setNotes(prevArr => [addNote, ...prevArr])
-        // }
     }
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <FormContainer ref={formContainerRef}>
+            <FormContainer sx={{ width: { xs: '320px', md: '600px' } }} ref={formContainerRef}>
                 {showTextField ? <TextField placeholder="Title"
                     variant="standard"
                     InputProps={{ disableUnderline: true }}
