@@ -53,7 +53,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const TopBar = () => {
+const TopBar = ({ handleDrawer }) => {
+
+
     const [anchorEl, setAnchorEl] = useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
@@ -89,12 +91,11 @@ const TopBar = () => {
         </Menu>
     );
 
-
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{ background: "#FFF", color: "#5f6368" }}>
+            <AppBar position="static" sx={{ background: "#FFF", color: "#5f6368", boxShadow: "inset 0 -1px 0 0 #dadce0" }}>
                 <Toolbar>
-                    <IconButton
+                    <IconButton onClick={handleDrawer}
                         size="large"
                         edge="start"
                         color="inherit"
@@ -108,7 +109,7 @@ const TopBar = () => {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        sx={{ mr: 0.5, pr: 1 }}
+                        sx={{ display: { xs: 'none', sm: 'block' }, mr: 0.5, pr: 1 }}
                     >
                         <img src='https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png' alt='logo' />
                     </IconButton>
