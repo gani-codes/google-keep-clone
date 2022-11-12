@@ -1,6 +1,6 @@
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 export const sideBarItems = [
     {
         id: 1,
@@ -10,13 +10,13 @@ export const sideBarItems = [
     },
     {
         id: 2,
-        icon: <ArchiveIcon />,
+        icon: <ArchiveOutlinedIcon />,
         label: "Archive",
         route: "/archive"
     },
     {
         id: 3,
-        icon: <DeleteIcon />,
+        icon: <DeleteOutlineOutlinedIcon />,
         label: "Bin",
         route: "/bin"
     },

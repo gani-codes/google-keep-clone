@@ -10,6 +10,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import TopBar from '../topBar/TopBar';
 import { sideBarItems } from '../../utils/sidebarItems';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -76,6 +77,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const Navbar = () => {
+    const navigate = useNavigate();
     // const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -89,10 +91,10 @@ const Navbar = () => {
                 <TopBar handleDrawer={handleDrawer} />
             </StyledAppBar>
             <Drawer variant="permanent" open={open}>
-                <DrawerHeader></DrawerHeader>
+                <DrawerHeader />
                 <List sx={{ mt: 1 }}>
                     {sideBarItems.map((text) => (
-                        <ListItem key={text.id} disablePadding sx={{
+                        <ListItem key={text.id} onClick={() => navigate(text.route)} disablePadding sx={{
                             '& :hover': {
                                 backgroundColor: "#f1f3f4",
                                 borderRadius: "0 25px 25px 0"
