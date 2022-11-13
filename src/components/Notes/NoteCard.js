@@ -7,7 +7,7 @@ import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 const StyledCard = styled(Box)`
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    width: 240px;
+    width: 250px;
     margin: 8px;
     box-shadow: none;
     cursor:default;
