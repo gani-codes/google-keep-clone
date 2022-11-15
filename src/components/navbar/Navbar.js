@@ -10,7 +10,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import TopBar from '../topBar/TopBar';
 import { sideBarItems } from '../../utils/sidebarItems';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -85,6 +85,7 @@ const Navbar = () => {
         setOpen(prevState => !prevState);
     };
 
+    let location = useLocation();
     return (
         <Box sx={{ display: 'flex' }}>
             <StyledAppBar position="fixed" open={open}>
@@ -96,11 +97,14 @@ const Navbar = () => {
                     {sideBarItems.map((text) => (
                         <ListItem key={text.id} onClick={() => navigate(text.route)} disablePadding sx={{
                             '& :hover': {
-                                backgroundColor: "#f1f3f4",
-                                borderRadius: "0 25px 25px 0"
+                                backgroundColor: location.pathname !== text.route ? "#f1f3f4" : "#feefc3",
+                                borderRadius: open ? "0 25px 25px 0" : "25px"
                             },
+                            backgroundColor: location.pathname === text.route ? "#feefc3" : "",
                             display: 'block',
-                            borderRadius: "0 25px 25px 0"
+                            borderRadius: open ? "0 25px 25px 0" : "50px",
+                            padding: open ? "0" : "5px",
+                            margin: open ? "0" : "5px 0",
                         }}>
                             <ListItemButton
                                 sx={{
@@ -124,7 +128,7 @@ const Navbar = () => {
                     ))}
                 </List>
             </Drawer>
-        </Box>
+        </Box >
     );
 }
 

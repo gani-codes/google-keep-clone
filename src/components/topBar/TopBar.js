@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -6,12 +6,12 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 // import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Avatar } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
+import UserContext from '../../context/user/UserContext';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -53,8 +53,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const TopBar = ({ handleDrawer }) => {
 
+const TopBar = ({ handleDrawer }) => {
+    const { user } = useContext(UserContext);
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -68,6 +69,11 @@ const TopBar = ({ handleDrawer }) => {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+
+    const handleLogout = async () => {
+        window.open("http://localhost:8000/api/auth/logout", "_self");
+        // const res = await axios.post("http://localhost:8000/api/auth/logout", { withCredentials: true });
+    }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -86,8 +92,8 @@ const TopBar = ({ handleDrawer }) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            {/* <MenuItem onClick={handleMenuClose}>Logout</MenuItem> */}
+            <Button onClick={handleLogout} variant="text">Logout</Button>
         </Menu>
     );
 
@@ -142,7 +148,7 @@ const TopBar = ({ handleDrawer }) => {
                             color="inherit"
                         >
                             {/* <AccountCircle /> */}
-                            <Avatar alt="Remy Sharp" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+                            <Avatar alt={user.name} src={user.picture} />
                         </IconButton>
                     </Box>
                 </Toolbar>
