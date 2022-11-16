@@ -7,8 +7,14 @@ const passport = require('passport');
 const app = express()
 const port = 8000
 
-app.use(session({ secret: process.env.EXPRESS_SESSION_SECRET, resave: false, saveUninitialized: true }));
-app.use(express.json())
+app.use(session({
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+}));
+
+app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -16,8 +16,8 @@ passport.use(new GoogleStrategy({
 ));
 
 passport.use(new LocalStrategy(
-    function (username, password, done) {
-        Users.findOne({ email: username }, function (err, user) {
+    function (email, password, done) {
+        Users.findOne({ email: email }, function (err, user) {
             if (err) { return done(err); }
             if (!user) { return done(null, false); }
             if (!verifyPassword(password, user.password)) { return done(null, false); }
