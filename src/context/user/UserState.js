@@ -7,7 +7,6 @@ const UserState = ({ children }) => {
 
     useEffect(() => {
         const checkUser = async () => {
-            console.log("checking for user")
             try {
                 const { data } = await axios.get("http://localhost:8000/api/auth/login/success", { withCredentials: true });
                 setUser(data.user._json);
