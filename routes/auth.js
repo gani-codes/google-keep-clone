@@ -27,19 +27,20 @@ router.post("/signup", async (req, res) => {
     }
 })
 
-router.post("/login", async (req, res) => {
+// router.post("/login", async (req, res) => {
 
-    try {
-        const user = await Users.findOne({ email: req.body.email });
-        if (!user) { res.status(404).json({ success: false, message: "User not found" }) };
+//     try {
+//         const user = await Users.findOne({ email: req.body.email });
+//         if (!user) { res.status(404).json({ success: false, message: "User not found" }) };
 
-        if (!verifyPassword(req.body.password, user.password)) { return res.status(400).json({ success: false, message: "wrong credentials" }) }
-        const { password, ...otherDetails } = user._doc;
-        return res.status(201).json({ success: true, message: "logged in successfully", user: otherDetails });
-    } catch (error) {
-        return res.status(500).json({ success: false, message: "Internal server error" });
-    }
-})
+//         const isPasswordCorrect = await (verifyPassword(req.body.password, user.password));
+//         if (!isPasswordCorrect) { return res.status(400).json({ success: false, message: "wrong credentials" }) }
+//         const { password, ...otherDetails } = user._doc;
+//         return res.status(201).json({ success: true, message: "logged in successfully", user: otherDetails });
+//     } catch (error) {
+//         return res.status(500).json({ success: false, message: "Internal server error" });
+//     }
+// })
 
 router.get("/login/failed", (req, res) => {
     res.status(401).json({
@@ -48,29 +49,30 @@ router.get("/login/failed", (req, res) => {
     });
 });
 
-router.get("/login/success", async (req, res) => {
-
+router.get("/login/success", (req, res) => {
     try {
         if (req.user) {
-            res.status(200).json({
-                success: true,
-                message: "login successfull",
-                user: req.user,
-                //   cookies: req.cookies
-            });
+            const { password, ...otherDetails } = req.user._json || req.user;
+            return res.status(201).json({ success: true, message: "logged in successfully", user: otherDetails });
         }
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 });
 
-// router.post("/login", passport.authenticate('local', {
-//     successRedirect: process.env.CLIENT_URL,
-//     failureRedirect: 'http://localhost:8000/api/auth/login/failed'
-// }),
-//     (req, res) => {
-//         res.redirect(process.env.CLIENT_URL);
-//     }
+
+router.post("/login", passport.authenticate('local', {
+    // successRedirect: process.env.CLIENT_URL,
+    successRedirect: 'http://localhost:8000/api/auth/login/success',
+    failureRedirect: 'http://localhost:8000/api/auth/login/failed'
+})
+);
+
+// router.post('/login',
+//     passport.authenticate('local', { failureRedirect: 'http://localhost:8000/api/auth/login/failed', failureMessage: true }),
+//     // function (req, res) {
+//     //     res.redirect(process.env.CLIENT_URL);
+//     // }
 // );
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));

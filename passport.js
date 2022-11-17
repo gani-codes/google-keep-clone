@@ -15,21 +15,29 @@ passport.use(new GoogleStrategy({
     }
 ));
 
-passport.use(new LocalStrategy(
-    function (email, password, done) {
-        Users.findOne({ email: email }, function (err, user) {
+passport.use(new LocalStrategy({ usernameField: 'email' },
+    (email, password, done) => {
+        Users.findOne({ email: email }, async (err, user) => {
             if (err) { return done(err); }
             if (!user) { return done(null, false); }
-            if (!verifyPassword(password, user.password)) { return done(null, false); }
-            return done(null, user);
+            const isPasswordCorrect = await verifyPassword(password, user.password);
+            if (!isPasswordCorrect) { return done(null, false, { message: 'Incorrect username or password.' }); }
+            // console.log(isPasswordCorrect)
+            // console.log(user)
+            return done(null, user, { message: isPasswordCorrect });
         });
     }
 ));
 
 passport.serializeUser(function (user, done) {
-    done(null, user);
+    process.nextTick(function () {
+        done(null, user);
+    })
 });
 
 passport.deserializeUser(function (user, done) {
-    done(null, user);
+    // done(null, user);
+    process.nextTick(function () {
+        done(null, user);
+    })
 });
