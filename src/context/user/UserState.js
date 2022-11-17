@@ -9,15 +9,17 @@ const UserState = ({ children }) => {
         const checkUser = async () => {
             try {
                 const { data } = await axios.get("http://localhost:8000/api/auth/login/success", { withCredentials: true });
-                setUser(data.user._json);
-                console.log(data.user._json.name)
+                // setUser(data.user._json);
+                // console.log(data.user._json.name)
+                setUser(data.user);
+                console.log(data.user)
             } catch (error) {
                 console.log(error)
             }
         }
 
         checkUser();
-    }, [])
+    }, []);
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 // import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Avatar, Button } from '@mui/material';
+import { Avatar, Button, MenuItem } from '@mui/material';
 import UserContext from '../../context/user/UserContext';
 
 const Search = styled('div')(({ theme }) => ({
@@ -78,6 +78,7 @@ const TopBar = ({ handleDrawer }) => {
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
+            sx={{ position: 'absolute', top: '50px' }}
             anchorEl={anchorEl}
             anchorOrigin={{
                 vertical: 'top',
@@ -92,8 +93,8 @@ const TopBar = ({ handleDrawer }) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            {/* <MenuItem onClick={handleMenuClose}>Logout</MenuItem> */}
-            <Button onClick={handleLogout} variant="text">Logout</Button>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            {/* <Button onClick={handleLogout} variant="text">Logout</Button> */}
         </Menu>
     );
 

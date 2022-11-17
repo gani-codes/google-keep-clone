@@ -28,7 +28,7 @@ export default function Login() {
             const { data } = await axios.post("http://localhost:8000/api/auth/login", { email: formData.get('email'), password: formData.get('password') }, { withCredentials: true })
             // console.log(data.user)
             setUser(data.user)
-            navigate("/");
+            // navigate("/");
         } catch (error) {
             console.log(error.request.response);
         }
