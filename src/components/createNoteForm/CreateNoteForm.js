@@ -1,8 +1,10 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Box, Button, ClickAwayListener, MenuItem, styled, TextField } from '@mui/material'
 import NotificationImportantOutlinedIcon from '@mui/icons-material/NotificationImportantOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import UserContext from '../../context/user/UserContext';
+import axios from 'axios';
 
 const FormContainer = styled(Box)`
     display: flex;
@@ -37,36 +39,63 @@ const formIconList = [
     }
 ]
 
+
 const CreateNoteForm = () => {
+    const { user } = useContext(UserContext);
 
     const [showTextField, setShowTextField] = useState(false);
 
+    const formContainerRef = useRef();
     const displayTextField = () => {
         setShowTextField(true);
     }
 
-    const formContainerRef = useRef();
-
-    const handleClickAway = () => {
+    const [note, setNote] = useState({ title: "", desc: "" })
+    const emptyNote = {
+        title: "",
+        desc: ""
+    }
+    const handleClickAway = async () => {
+        //need to clear input after submission
+        if (note.desc.length !== 0) {
+            try {
+                const { data } = await axios.post('http://localhost:8000/api/notes/', {
+                    title: note.title,
+                    desc: note.desc,
+                    user: user.name
+                })
+                if (data) { setNote(emptyNote) }
+            } catch (error) {
+                console.log(error.respose)
+            }
+        }
+        // console.log(note);
         setShowTextField(false);
         formContainerRef.current.style.minheight = '30px'
+    }
+    const onChange = (e) => {
+        setNote({ ...note, [e.target.name]: e.target.value })
     }
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
             <FormContainer sx={{ width: { xs: '320px', md: '600px' } }} ref={formContainerRef}>
                 {showTextField ? <TextField placeholder="Title"
+                    onChange={onChange}
                     variant="standard"
                     InputProps={{ disableUnderline: true }}
                     style={{ marginBottom: 10 }}
-                    name='heading'
+                    name='title'
+                    value={note.title}
                 /> : ''}
                 <TextField placeholder="Take a note..."
+                    onChange={onChange}
                     multiline
                     maxRows={Infinity}
                     variant="standard"
                     InputProps={{ disableUnderline: true }}
-                    name='text'
                     onClick={displayTextField}
+                    name='desc'
+                    value={note.desc}
                 />
                 {showTextField ? <FormIcons>
                     <FormIcons>
