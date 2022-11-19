@@ -15,6 +15,10 @@ const noteSchema = new Schema({
     isTrash: {
         type: Boolean,
         default: false
+    },
+    user: {
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 
