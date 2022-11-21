@@ -1,10 +1,8 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Box, Button, ClickAwayListener, MenuItem, styled, TextField } from '@mui/material'
-import NotificationImportantOutlinedIcon from '@mui/icons-material/NotificationImportantOutlined';
-import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
-import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import UserContext from '../../context/user/UserContext';
 import axios from 'axios';
+import { formIconList } from '../../utils/noteCardIcons';
 
 const FormContainer = styled(Box)`
     display: flex;
@@ -24,24 +22,8 @@ const FormIcons = styled(Box)`
     margin-top:4px
 `
 
-const formIconList = [
-    {
-        id: 1,
-        icon: <NotificationImportantOutlinedIcon />
-    },
-    {
-        id: 2,
-        icon: <ColorLensOutlinedIcon />
-    },
-    {
-        id: 3,
-        icon: <HighlightOffOutlinedIcon />
-    }
-]
-
-
 const CreateNoteForm = () => {
-    const { user } = useContext(UserContext);
+    const { user, allNotes, setAllNotes } = useContext(UserContext);
 
     const [showTextField, setShowTextField] = useState(false);
 
@@ -51,10 +33,12 @@ const CreateNoteForm = () => {
     }
 
     const [note, setNote] = useState({ title: "", desc: "" })
+
     const emptyNote = {
         title: "",
         desc: ""
     }
+
     const handleClickAway = async () => {
         //need to clear input after submission
         if (note.desc.length !== 0) {
@@ -62,20 +46,24 @@ const CreateNoteForm = () => {
                 const { data } = await axios.post('http://localhost:8000/api/notes/', {
                     title: note.title,
                     desc: note.desc,
-                    user: user.name
+                    userId: user._id || user.sub
                 })
-                if (data) { setNote(emptyNote) }
+                if (data.success) {
+                    setAllNotes([...allNotes, note])
+                    setNote(emptyNote)
+                }
             } catch (error) {
                 console.log(error.respose)
             }
         }
-        // console.log(note);
         setShowTextField(false);
         formContainerRef.current.style.minheight = '30px'
     }
+
     const onChange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value })
     }
+
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
             <FormContainer sx={{ width: { xs: '320px', md: '600px' } }} ref={formContainerRef}>
