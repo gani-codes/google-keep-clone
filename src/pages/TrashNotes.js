@@ -1,25 +1,18 @@
 import { Box, Grid, styled } from '@mui/material';
-import React from 'react'
+import React, { useContext } from 'react'
 import NoteCard from '../components/Notes/NoteCard';
+import UserContext from '../context/user/UserContext';
 
 const TrashNotes = () => {
     const DrawerHeader = styled('div')(({ theme }) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     }));
+    const { allNotes } = useContext(UserContext);
 
-    const allTrashNotes = [
-        {
-            id: 1,
-            title: 'My notes are the best',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quia, veniam nostrum impedit nobis nam quam quis minus tenetur inventore numquam, at, consectetur amet similique. Nostrum, corrupti possimus eum unde nesciunt blanditiis!"
-        },
-        {
-            id: 2,
-            title: "Buy vegetables for dinner",
-            desc: "1kg Tomato, 2kg mutton"
-        }
-    ]
+
+    const allTrashNotes = allNotes.filter(note => note.isTrash && !note.isArchived)
+
     return (
         <Box sx={{ p: 3, width: '100%' }}>
             <DrawerHeader />

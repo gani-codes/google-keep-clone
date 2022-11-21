@@ -1,11 +1,11 @@
-import { Box, Card, CardActions, CardContent, MenuItem, styled, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, MenuItem, styled, Typography } from '@mui/material';
 import React, { useState } from 'react'
 import NotificationImportantOutlinedIcon from '@mui/icons-material/NotificationImportantOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 
 const StyledCard = styled(Box)`
-    border: 1px solid #e0e0e0;
+    border: 0.15px solid #e0e0e0;
     border-radius: 8px;
     width: 250px;
     margin: 8px;
@@ -15,7 +15,8 @@ const StyledCard = styled(Box)`
 const FormIcons = styled(Box)`
     display:flex;
     justify-content:space-between;
-    margin-top:4px
+    width:100%;
+    margin-top:4px;
 `
 const formIconList = [
     {
@@ -38,9 +39,11 @@ const NoteCard = ({ singleNote }) => {
     const handleMouseOver = () => {
         setDisplayNoteActions(true);
     }
+
     const handleMouseOut = () => {
         setDisplayNoteActions(false);
     }
+
     const card = (
         <React.Fragment>
             <CardContent>

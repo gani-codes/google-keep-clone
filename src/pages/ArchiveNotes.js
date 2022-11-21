@@ -1,7 +1,8 @@
 import { Box, Grid } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import React from 'react'
+import React, { useContext } from 'react'
 import NoteCard from '../components/Notes/NoteCard';
+import UserContext from '../context/user/UserContext';
 
 const ArchiveNotes = () => {
     const DrawerHeader = styled('div')(({ theme }) => ({
@@ -9,23 +10,10 @@ const ArchiveNotes = () => {
         ...theme.mixins.toolbar,
     }));
 
-    const allArchivedNotes = [
-        {
-            id: 1,
-            title: 'My notes are the best',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quia, veniam nostrum impedit nobis nam quam quis minus tenetur inventore numquam, at, consectetur amet similique. Nostrum, corrupti possimus eum unde nesciunt blanditiis!"
-        },
-        {
-            id: 2,
-            title: "Buy vegetables for dinner",
-            desc: "1kg Tomato, 2kg mutton"
-        },
-        {
-            id: 3,
-            title: 'My notes are the best',
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quia, veniam nostrum impedit nobis nam quam quis minus tenetur inventore numquam, at, consectetur amet similique. Nostrum, corrupti possimus eum unde nesciunt blanditiis!"
-        }
-    ]
+    const { allNotes } = useContext(UserContext);
+
+
+    const allArchivedNotes = allNotes.filter(note => note.isArchived && !note.isTrash)
     return (
         <Box sx={{ p: 3, width: '100%' }}>
             <DrawerHeader />

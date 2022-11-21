@@ -9,7 +9,7 @@ const Notes = () => {
     return (
         <Box sx={{ p: 3, width: '100%' }}>
             <Grid container sx={{ justifyContent: { xs: "center", md: "flex-start" } }}>
-                {allNotes.map((singleNote, index) => (
+                {allNotes.filter(note => !note.isArchived && !note.isTrash).map((singleNote, index) => (
                     <Grid key={index} item >
                         <NoteCard singleNote={singleNote} />
                     </Grid>
