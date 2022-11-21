@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+//notes schema 
 const noteSchema = new Schema({
     title: {
         type: String,
@@ -16,7 +17,7 @@ const noteSchema = new Schema({
         type: Boolean,
         default: false
     },
-    user: {
+    userId: { //stores the owner of the notes so that it remains protected
         type: String,
         required: true
     }

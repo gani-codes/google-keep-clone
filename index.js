@@ -5,8 +5,9 @@ const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
 const app = express()
-const port = 8000
+const port = process.env.PORT
 
+//making the server to use sessions
 app.use(session({
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
@@ -15,17 +16,20 @@ app.use(session({
 }));
 
 app.use(express.json());
+//passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
+//CORS enablement
 app.use(
     cors({
-        origin: [process.env.CLIENT_URL, process.env.SERVER_URL],
-        methods: "GET,POST,PUT,DELETE",
+        origin: process.env.CLIENT_URL,
+        methods: "GET,POST,PUT,DELETE,HEAD,DELETE",
         credentials: true,
     })
 );
 
+// routes
 app.use('/api/notes', require("./routes/notes"));
 app.use('/api/auth', require("./routes/auth"));
 

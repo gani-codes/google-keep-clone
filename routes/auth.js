@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-const { toHashPassword, verifyPassword } = require('../bcryptConfig');
+const { toHashPassword } = require('../bcryptConfig');
 require("../passport")
 const Users = require('../models/Users');
 
@@ -51,7 +51,7 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/login/success", (req, res) => {
     try {
-        if (req.user) {
+        if (req.isAuthenticated()) {
             const { password, ...otherDetails } = req.user._json || req.user;
             return res.status(201).json({ success: true, message: "logged in successfully", user: otherDetails });
         }
@@ -62,7 +62,7 @@ router.get("/login/success", (req, res) => {
 
 
 router.post("/login", passport.authenticate('local', {
-    // successRedirect: process.env.CLIENT_URL,
+    // successRedirect: '/',
     successRedirect: 'http://localhost:8000/api/auth/login/success',
     failureRedirect: 'http://localhost:8000/api/auth/login/failed'
 })

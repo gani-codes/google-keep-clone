@@ -5,6 +5,7 @@ const { verifyPassword } = require('./bcryptConfig');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 
+// creating new strategy - Google Strategy
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -15,18 +16,20 @@ passport.use(new GoogleStrategy({
     }
 ));
 
-passport.use(new LocalStrategy({ usernameField: 'email' },
-    (email, password, done) => {
-        Users.findOne({ email: email }, async (err, user) => {
-            if (err) { return done(err); }
-            if (!user) { return done(null, false); }
-            const isPasswordCorrect = await verifyPassword(password, user.password);
-            if (!isPasswordCorrect) { return done(null, false, { message: 'Incorrect username or password.' }); }
-            // console.log(isPasswordCorrect)
-            // console.log(user)
-            return done(null, user, { message: isPasswordCorrect });
-        });
-    }
+// creating new strategy - Local Strategy
+passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+    Users.findOne({ email: email }, async (err, user) => {
+        if (err) { return done(err); } //some error in db/server
+
+        if (!user) { return done(null, false); } //user not in db
+
+        const isPasswordCorrect = await verifyPassword(password, user.password); //comparing passwords
+
+        if (!isPasswordCorrect) { return done(null, false, { message: 'Incorrect username or password.' }); }
+
+        return done(null, user, { message: isPasswordCorrect });
+    });
+}
 ));
 
 passport.serializeUser(function (user, done) {
@@ -36,7 +39,6 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (user, done) {
-    // done(null, user);
     process.nextTick(function () {
         done(null, user);
     })

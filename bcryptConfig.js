@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 
+//function to hash the password before saving into db
 const toHashPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -7,15 +8,10 @@ const toHashPassword = async (password) => {
     return hashedPassword;
 }
 
+//verifying the password given by user with hashed password
 const verifyPassword = async (uiPassword, dbPassword) => {
     const isPasswordCorrect = await bcrypt.compare(uiPassword, dbPassword);
     return isPasswordCorrect;
 }
-
-// const verifyPassword = (password, p2) => {
-//     console.log(password);
-//     console.log(p2)
-//     return password === p2;
-// }
 
 module.exports = { toHashPassword, verifyPassword }
