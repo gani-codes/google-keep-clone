@@ -5,6 +5,10 @@ import UserContext from "./UserContext"
 const UserState = ({ children }) => {
     const [user, setUser] = useState(null);
     const [allNotes, setAllNotes] = useState([]);
+    const [notes, setNotes] = useState([]);
+    const [allArchivedNotes, setAllArchivedNotes] = useState([]);
+    const [allTrashNotes, setAllTrashNotes] = useState([]);
+
     useEffect(() => {
         const checkUser = async () => {
             try {
@@ -17,6 +21,7 @@ const UserState = ({ children }) => {
                 console.log(error)
             }
         }
+
         checkUser();
     }, []);
 
@@ -24,21 +29,20 @@ const UserState = ({ children }) => {
         const fetchAllNotes = async () => {
             try {
                 const { data } = await axios.get("http://localhost:8000/api/notes/", { withCredentials: true });
-                // console.log(data);
-                setAllNotes(data.notes)
+                setAllNotes(data.notes);
+                setNotes(data.notes.filter(note => !note.isArchived && !note.isTrash));
+                setAllArchivedNotes(data.notes.filter(note => note.isArchived && !note.isTrash));
+                setAllTrashNotes(data.notes.filter(note => note.isTrash && !note.isArchived));
             } catch (error) {
                 console.log(error.response)
             }
         }
 
         user && fetchAllNotes();
-    }, [user])
-
-
-
+    }, [user]);
 
     return (
-        <UserContext.Provider value={{ user, setUser, allNotes, setAllNotes }}>
+        <UserContext.Provider value={{ user, setUser, allNotes, setAllNotes, notes, setNotes, allArchivedNotes, setAllArchivedNotes, allTrashNotes, setAllTrashNotes }}>
             {children}
         </UserContext.Provider>
     )

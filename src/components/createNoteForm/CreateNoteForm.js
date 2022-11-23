@@ -23,7 +23,7 @@ const FormIcons = styled(Box)`
 `
 
 const CreateNoteForm = () => {
-    const { user, allNotes, setAllNotes } = useContext(UserContext);
+    const { user, allNotes, setAllNotes, setNotes, notes } = useContext(UserContext);
 
     const [showTextField, setShowTextField] = useState(false);
 
@@ -40,8 +40,7 @@ const CreateNoteForm = () => {
     }
 
     const handleClickAway = async () => {
-        //need to clear input after submission
-        if (note.desc.length !== 0) {
+        if (note.desc.length !== 0 || note.title.length !== 0) {
             try {
                 const { data } = await axios.post('http://localhost:8000/api/notes/', {
                     title: note.title,
@@ -50,10 +49,12 @@ const CreateNoteForm = () => {
                 })
                 if (data.success) {
                     setAllNotes([...allNotes, note])
+                    setNotes([...notes, note])
+                    //need to clear input after submission
                     setNote(emptyNote)
                 }
             } catch (error) {
-                console.log(error.respose)
+                console.log(error)
             }
         }
         setShowTextField(false);

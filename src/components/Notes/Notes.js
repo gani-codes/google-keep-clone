@@ -1,21 +1,31 @@
-import { Box, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import React, { useContext } from 'react'
 import UserContext from '../../context/user/UserContext'
 import NoteCard from './NoteCard'
+import Masonry from 'react-masonry-css'
+import './notes.css'
 
 
 const Notes = () => {
-    const { allNotes } = useContext(UserContext)
+    const breakpointColumnsObj = {
+        default: 4,
+        1100: 3,
+        700: 2,
+        500: 1
+    };
+    const { notes } = useContext(UserContext)
     return (
-        <Box sx={{ p: 3, width: '100%' }}>
-            <Grid container sx={{ justifyContent: { xs: "center", md: "flex-start" } }}>
-                {allNotes.filter(note => !note.isArchived && !note.isTrash).map((singleNote, index) => (
-                    <Grid key={index} item >
-                        <NoteCard singleNote={singleNote} />
-                    </Grid>
-                ))}
-            </Grid>
-        </Box >
+        <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+        >
+            {notes.map((singleNote, index) => (
+                <Grid key={index} item >
+                    <NoteCard singleNote={singleNote} page={'notes'} />
+                </Grid>
+            )).reverse()}
+        </Masonry>
     )
 }
 
