@@ -4,7 +4,7 @@ const { toHashPassword } = require('../bcryptConfig');
 require("../passport")
 const Users = require('../models/Users');
 
-
+// registering new user
 router.post("/signup", async (req, res) => {
     try {
         const tempUser = await Users.findOne({ email: req.body.email });
@@ -27,21 +27,7 @@ router.post("/signup", async (req, res) => {
     }
 })
 
-// router.post("/login", async (req, res) => {
-
-//     try {
-//         const user = await Users.findOne({ email: req.body.email });
-//         if (!user) { res.status(404).json({ success: false, message: "User not found" }) };
-
-//         const isPasswordCorrect = await (verifyPassword(req.body.password, user.password));
-//         if (!isPasswordCorrect) { return res.status(400).json({ success: false, message: "wrong credentials" }) }
-//         const { password, ...otherDetails } = user._doc;
-//         return res.status(201).json({ success: true, message: "logged in successfully", user: otherDetails });
-//     } catch (error) {
-//         return res.status(500).json({ success: false, message: "Internal server error" });
-//     }
-// })
-
+// redirect to when login failed
 router.get("/login/failed", (req, res) => {
     res.status(401).json({
         success: false,
@@ -49,6 +35,7 @@ router.get("/login/failed", (req, res) => {
     });
 });
 
+// redirect to when login succeed
 router.get("/login/success", (req, res) => {
     try {
         if (req.isAuthenticated()) {
@@ -60,7 +47,7 @@ router.get("/login/success", (req, res) => {
     }
 });
 
-
+//it needs to be optimised since it is taking alot of time to login
 router.post("/login", passport.authenticate('local', {
     // successRedirect: '/',
     successRedirect: 'http://localhost:8000/api/auth/login/success',

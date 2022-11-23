@@ -33,7 +33,7 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
-// Get
+// Get a particular note
 router.get("/:id", async (req, res) => {
     try {
         const note = await Notes.findById(req.params.id);
@@ -48,20 +48,10 @@ router.get("/:id", async (req, res) => {
 
 // get all notes
 router.get("/", async (req, res) => {
-    const type = req.query.type;
-    const uid = req.user._id || req.user.id;
-    // console.log(uid);
+    const uid = req.user.id || req.user._id;
+    // console.log(req.user);
 
     try {
-        // let notes;
-        // if (type === 'archived') {
-        //     notes = await Notes.find({ isArchived: true });
-        // } else if (type === 'bin') {
-        //     notes = await Notes.find({ isTrash: true });
-        // } else {
-        //     notes = await Notes.find({ userId: req.body.userId });
-        // }
-
         const notes = await Notes.find({ userId: uid });
 
         res.status(200).json({ success: true, notes: notes });
