@@ -71,7 +71,7 @@ const TopBar = ({ handleDrawer }) => {
     };
 
     const handleLogout = async () => {
-        window.open("http://localhost:8000/api/auth/logout", "_self");
+        window.open(`${process.env.SERVER_URL}/api/auth/logout`, "_self");
         // const res = await axios.post("http://localhost:8000/api/auth/logout", { withCredentials: true });
     }
 

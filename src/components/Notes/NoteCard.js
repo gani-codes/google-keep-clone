@@ -19,6 +19,7 @@ const FormIcons = styled(Box)`
     width:100%;
     margin-top:4px;
 `
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL })
 
 const NoteCard = ({ singleNote, page }) => {
     const [displayNoteActions, setDisplayNoteActions] = useState(false);
@@ -41,7 +42,7 @@ const NoteCard = ({ singleNote, page }) => {
         const actionType = e.target.name;
         if (actionType === 'archive') {
             try {
-                const { data } = await axios.put(`http://localhost:8000/api/notes/${singleNote._id}`, { isArchived: true })
+                const { data } = await axioaxiosInstances.put(`/api/notes/${singleNote._id}`, { isArchived: true })
                 if (data.success) {
                     //need to fetch all notes here and update archived notes
                     const updatedNotes = notes.filter(note => note._id !== data.note._id);
@@ -55,7 +56,7 @@ const NoteCard = ({ singleNote, page }) => {
         }
         else if (actionType === 'unarchive') {
             try {
-                const { data } = await axios.put(`http://localhost:8000/api/notes/${singleNote._id}`, { isArchived: false })
+                const { data } = await axios.put(`/api/notes/${singleNote._id}`, { isArchived: false })
                 if (data.success) {
                     //need to fetch all notes here and update archived notes
                     const updatedNotes = allArchivedNotes.filter(note => note._id !== data.note._id); // rest all notes
@@ -70,7 +71,7 @@ const NoteCard = ({ singleNote, page }) => {
         else if (actionType === 'bin') {
             try {
                 //make an call to move the note in bin
-                const { data } = await axios.put(`http://localhost:8000/api/notes/${singleNote._id}`, { isTrash: true, isArchived: false });
+                const { data } = await axiosInstance.put(`/api/notes/${singleNote._id}`, { isTrash: true, isArchived: false });
                 console.log(data.note)
                 if (data.success) {
                     //need to fetch all notes here and update trash notes
@@ -91,7 +92,7 @@ const NoteCard = ({ singleNote, page }) => {
         }
         else if (actionType === 'restore') {
             try {
-                const { data } = await axios.put(`http://localhost:8000/api/notes/${singleNote._id}`, { isTrash: false })
+                const { data } = await axiosInstance.put(`/api/notes/${singleNote._id}`, { isTrash: false })
                 if (data.success) {
                     //need to fetch all notes here and update archived notes
                     const updatedNotes = allTrashNotes.filter(note => note._id !== data.note._id); // rest all notes
@@ -106,7 +107,7 @@ const NoteCard = ({ singleNote, page }) => {
         else if (actionType === 'delete') {
             try {
                 //make an call to move the note in bin
-                const { data } = await axios.delete(`http://localhost:8000/api/notes/${singleNote._id}`);
+                const { data } = await axiosInstance.delete(`/api/notes/${singleNote._id}`);
                 if (data.success) {
                     //need to fetch all notes here and update trash notes
                     const updatedNotes = allTrashNotes.filter(note => note._id !== singleNote._id);

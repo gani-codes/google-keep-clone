@@ -16,6 +16,8 @@ import UserContext from '../../context/user/UserContext';
 
 const theme = createTheme();
 
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL })
+
 export default function Login() {
     const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ export default function Login() {
 
         const formData = new FormData(event.currentTarget);
         try {
-            const { data } = await axios.post("http://localhost:8000/api/auth/login", { email: formData.get('email'), password: formData.get('password') }, { withCredentials: true })
+            const { data } = await axiosInstance.post("/api/auth/login", { email: formData.get('email'), password: formData.get('password') }, { withCredentials: true })
             // console.log(data.user)
             setUser(data.user)
             // navigate("/");
@@ -36,7 +38,7 @@ export default function Login() {
 
     const handleGoogleSignin = (event) => {
         event.preventDefault();
-        window.open("http://localhost:8000/api/auth/google", "_self");
+        window.open(`${process.env.REACT_APP_API_URL}/api/auth/google`, "_self");
     }
 
 

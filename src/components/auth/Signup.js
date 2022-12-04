@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const theme = createTheme();
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL })
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -29,8 +30,8 @@ export default function Signup() {
         // });
 
         try {
-            const { data } = await axios.post(
-                "http://localhost:8000/api/auth/signup", {
+            const { data } = await axiosInstance.post(
+                "/api/auth/signup", {
                 firstName: formData.get('firstName'),
                 lastName: formData.get('lastName'),
                 email: formData.get('email'),

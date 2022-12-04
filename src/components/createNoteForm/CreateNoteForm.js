@@ -22,6 +22,8 @@ const FormIcons = styled(Box)`
     margin-top:4px
 `
 
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL })
+
 const CreateNoteForm = () => {
     const { user, allNotes, setAllNotes, setNotes, notes } = useContext(UserContext);
 
@@ -42,7 +44,7 @@ const CreateNoteForm = () => {
     const handleClickAway = async () => {
         if (note.desc.length !== 0 || note.title.length !== 0) {
             try {
-                const { data } = await axios.post('http://localhost:8000/api/notes/', {
+                const { data } = await axiosInstance.post('/api/notes/', {
                     title: note.title,
                     desc: note.desc,
                     userId: user._id || user.sub

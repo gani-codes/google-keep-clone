@@ -24,6 +24,8 @@ const inputStyle = {
     mt: 2,
 }
 
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL })
+
 const EditNote = ({ note, page }, ref) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -38,7 +40,7 @@ const EditNote = ({ note, page }, ref) => {
     const handleClickAway = async () => {
         if ((editedNote.desc !== note.desc || editedNote.title !== note.title) && (page === 'notes' || page === 'archived')) {
             try {
-                const { data } = await axios.put(`http://localhost:8000/api/notes/${note._id}`, {
+                const { data } = await axiosInstance.put(`/api/notes/${note._id}`, {
                     title: editedNote.title,
                     desc: editedNote.desc
                 })

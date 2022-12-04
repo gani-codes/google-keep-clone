@@ -9,10 +9,12 @@ const UserState = ({ children }) => {
     const [allArchivedNotes, setAllArchivedNotes] = useState([]);
     const [allTrashNotes, setAllTrashNotes] = useState([]);
 
+    const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_API_URL })
+
     useEffect(() => {
         const checkUser = async () => {
             try {
-                const { data } = await axios.get("http://localhost:8000/api/auth/login/success", { withCredentials: true });
+                const { data } = await axiosInstance.get("/api/auth/login/success", { withCredentials: true });
                 // setUser(data.user._json);
                 // console.log(data.user._json.name)
                 setUser(data.user);
@@ -28,7 +30,7 @@ const UserState = ({ children }) => {
     useEffect(() => {
         const fetchAllNotes = async () => {
             try {
-                const { data } = await axios.get("http://localhost:8000/api/notes/", { withCredentials: true });
+                const { data } = await axiosInstance.get("/api/notes/", { withCredentials: true });
                 setAllNotes(data.notes);
                 setNotes(data.notes.filter(note => !note.isArchived && !note.isTrash));
                 setAllArchivedNotes(data.notes.filter(note => note.isArchived && !note.isTrash));
