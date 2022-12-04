@@ -5,7 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
 const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 8000
 
 //making the server to use sessions
 app.use(session({
