@@ -42,7 +42,7 @@ const NoteCard = ({ singleNote, page }) => {
         const actionType = e.target.name;
         if (actionType === 'archive') {
             try {
-                const { data } = await axioaxiosInstances.put(`/api/notes/${singleNote._id}`, { isArchived: true })
+                const { data } = await axiosInstance.put(`/api/notes/${singleNote._id}`, { isArchived: true })
                 if (data.success) {
                     //need to fetch all notes here and update archived notes
                     const updatedNotes = notes.filter(note => note._id !== data.note._id);
