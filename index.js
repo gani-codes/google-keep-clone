@@ -35,5 +35,5 @@ app.use('/api/auth', require("./routes/auth"));
 
 app.listen(port, () => {
     connectToDb();
-    console.log(`Backend running on http://localhost:${port}`)
+    console.log(`Backend running on port ${port}`)
 })

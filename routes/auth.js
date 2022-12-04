@@ -4,6 +4,8 @@ const { toHashPassword } = require('../bcryptConfig');
 require("../passport")
 const Users = require('../models/Users');
 
+const serverURL = process.env.SERVER_URL;
+
 // registering new user
 router.post("/signup", async (req, res) => {
     try {
@@ -50,8 +52,8 @@ router.get("/login/success", (req, res) => {
 //it needs to be optimised since it is taking alot of time to login
 router.post("/login", passport.authenticate('local', {
     // successRedirect: '/',
-    successRedirect: 'http://localhost:8000/api/auth/login/success',
-    failureRedirect: 'http://localhost:8000/api/auth/login/failed'
+    successRedirect: `${serverURL}/api/auth/login/success`,
+    failureRedirect: `${serverURL}/api/auth/login/failed`
 })
 );
 
@@ -67,7 +69,7 @@ router.get("/google", passport.authenticate("google", { scope: ["profile", "emai
 router.get("/google/callback",
     passport.authenticate("google", {
         successRedirect: process.env.CLIENT_URL,
-        failureRedirect: "http://localhost:8000/api/auth/login/failed",
+        failureRedirect: `${serverURL}/api/auth/login/failed`,
     })
 );
 
