@@ -25,7 +25,7 @@ const UserState = ({ children }) => {
         }
 
         checkUser();
-    }, []);
+    });
 
     useEffect(() => {
         const fetchAllNotes = async () => {
