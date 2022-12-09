@@ -52,7 +52,8 @@ router.get("/login/success", (req, res) => {
 //it needs to be optimised since it is taking alot of time to login
 router.post("/login", passport.authenticate('local', {
     // successRedirect: '/',
-    successRedirect: `${serverURL}/api/auth/login/success`,
+    // successRedirect: `${serverURL}/api/auth/login/success`,
+    successRedirect: process.env.CLIENT_URL,
     failureRedirect: `${serverURL}/api/auth/login/failed`
 })
 );
