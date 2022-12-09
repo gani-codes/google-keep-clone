@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 // import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Avatar, Button, MenuItem } from '@mui/material';
+import { Avatar, MenuItem } from '@mui/material';
 import UserContext from '../../context/user/UserContext';
 
 const Search = styled('div')(({ theme }) => ({
@@ -71,7 +71,7 @@ const TopBar = ({ handleDrawer }) => {
     };
 
     const handleLogout = async () => {
-        window.open(`${process.env.SERVER_URL}/api/auth/logout`, "_self");
+        window.open(`${process.env.REACT_APP_API_URL}/api/auth/logout`, "_self");
         // const res = await axios.post("http://localhost:8000/api/auth/logout", { withCredentials: true });
     }
 

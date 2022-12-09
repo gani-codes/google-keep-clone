@@ -41,6 +41,7 @@ const UserState = ({ children }) => {
         }
 
         user && fetchAllNotes();
+        // eslint-disable-next-line
     }, [user]);
 
     return (
